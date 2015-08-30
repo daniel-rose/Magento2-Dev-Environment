@@ -1,5 +1,5 @@
 Vagrant.configure(2) do |config|
-  config.vm.box = "ubuntu/trusty32"
+  config.vm.box = "debian/jessie64"
   config.vm.provision :shell, path: "bootstrap.sh"
   config.vm.network :forwarded_port, guest: 80, host: 8080, auto_correct: true
   config.vm.synced_folder ".", "/vagrant", disabled: true

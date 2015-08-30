@@ -64,7 +64,9 @@ function installMagento2() {
 	--db-host=${DB_HOST} --db-name=${DB_NAME} --db-user=${DB_USER} --db-password=${DB_PASSWORD} \
 	--admin-firstname=Magento --admin-lastname=User --admin-email=user@example.com \
 	--admin-user=admin --admin-password=password123 --language=de_DE \
-	--currency=EUR --timezone=Europe/Berlin 
+	--currency=EUR --timezone=Europe/Berlin
+
+	sudo -u vagrant ./magento setup:static-content:deploy de_DE en_US
 }
 
 echo "Adding user vagrant to group www-data"
@@ -72,8 +74,8 @@ usermod -a -G www-data vagrant
 
 echo "nameserver 8.8.8.8" > /etc/resolv.conf
 
-echo "Add multiverse repository"
-apt-add-repository multiverse
+#echo "Add multiverse repository"
+#apt-add-repository multiverse
 
 echo "Updating Ubuntu-Repositories"
 apt-get update 2> /dev/null
@@ -121,7 +123,7 @@ debconf-set-selections <<< "mysql-server mysql-server/root_password password pas
 debconf-set-selections <<< "mysql-server mysql-server/root_password_again password password"
 
 echo "Installing MySQL-Server"
-apt-get install mysql-server-5.6 -y 2> /dev/null
+apt-get install mariadb-server -y 2> /dev/null
 
 echo "Creating Database"
 mysql -u root --password="password" -e "CREATE DATABASE IF NOT EXISTS ${DB_NAME}"
